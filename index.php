@@ -1,3 +1,11 @@
+<?php
+include 'db.php';
+
+$stmt = $conn->prepare('SELECT * FROM results');
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,6 +40,27 @@
         <th>Grade </th>
         <th>Actions </th>
     </tr>
-    
+<?php
+$no = 1;
+while ($row = $result->fetch_assoc()) {
+    echo "<tr>";
+    echo "<td>" . $no++ . "</td>";
+    echo "<td>" . htmlspecialchars($row['student_name']) . "</td>";
+    echo "<td>" . htmlspecialchars($row['matric_num']) . "</td>";
+    echo "<td>" . htmlspecialchars($row['subject_name']) . "</td>";
+    echo "<td>" . number_format($row['test_1'], 2) . "</td>";
+    echo "<td>" . number_format($row['test_2'], 2) . "</td>";
+    echo "<td>" . number_format($row['final_exam'], 2) . "</td>";
+    echo "<td>" . number_format($row['total_marks'], 2) . "</td>";
+    echo "<td>" . htmlspecialchars($row['grade']) . "</td>";
+    echo "<td> <a href='edit.php?id=" . $row['result'] . "'>Edit</a> | <a href='delete.php?id=" . $row['result'] . "'>Delete</a> </td>";
+    echo "</tr>";
+}
+
+
+?>
+</table>
+
+
 </body>
 </html>
