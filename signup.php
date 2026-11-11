@@ -41,8 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Sign up</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="auth-container">
     <h1>Create an account</h1>
 
     <form method="POST" action="signup.php">
@@ -53,5 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <p><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
     <a href="login.php">Already have an account? Log in</a>
+    </div>
 </body>
 </html>

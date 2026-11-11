@@ -48,14 +48,18 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Grades</title>
+
+    <link rel="stylesheet" href="css/style.css">
     
 </head>
 
 <a href="logout.php">Logout</a>
 
 <body>
+<div class="container">
 
 <h1>Student Grading System</h1> 
+<br>
 
 <h2>Student Records</h2>
 
@@ -99,33 +103,52 @@ $result = $stmt->get_result();
 
 $no = 1;
 
-while ($row = $result->fetch_assoc()) {
+if ($result->num_rows > 0) {
+
+    while ($row = $result->fetch_assoc()) {
+
+        echo "<tr>";
+
+        echo "<td>" . $no++ . "</td>";
+        echo "<td>" . htmlspecialchars($row['student_name']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['matric_num']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['subject_name']) . "</td>";
+
+        echo "<td>" . number_format($row['test_1'], 2) . "</td>";
+        echo "<td>" . number_format($row['test_2'], 2) . "</td>";
+        echo "<td>" . number_format($row['final_exam'], 2) . "</td>";
+        echo "<td>" . number_format($row['total_marks'], 2) . "</td>";
+
+        echo "<td>" . htmlspecialchars($row['grade']) . "</td>";
+
+        echo "<td>
+            <a href='edit.php?id=" . $row['result'] . "'>Edit</a> |
+            <a href='delete.php?id=" . $row['result'] . "'onclick=\"return confirm('Are you sure you want to delete this student record?');\">Delete</a>
+        </td>";
+
+        echo "</tr>";
+    }
+
+} else {
 
     echo "<tr>";
+    echo "<td colspan='10' style='text-align:center;'>";
 
-    echo "<td>" . $no++ . "</td>";
-    echo "<td>" . htmlspecialchars($row['student_name']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['matric_num']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['subject_name']) . "</td>";
+    if ($search != "") {
+        echo "No records found for \"" . htmlspecialchars($search) . "\".";
+    } else {
+        echo "No student records available.";
+    }
 
-    echo "<td>" . number_format($row['test_1'], 2) . "</td>";
-    echo "<td>" . number_format($row['test_2'], 2) . "</td>";
-    echo "<td>" . number_format($row['final_exam'], 2) . "</td>";
-    echo "<td>" . number_format($row['total_marks'], 2) . "</td>";
-
-    echo "<td>" . htmlspecialchars($row['grade']) . "</td>";
-
-    echo "<td>
-        <a href='edit.php?id=" . $row['result'] . "'>Edit</a> |
-        <a href='delete.php?id=" . $row['result'] . "'>Delete</a>
-    </td>";
-
+    echo "</td>";
     echo "</tr>";
+
 }
 
 ?>
 
 </table>
 
+</div>
 </body>
 </html>
